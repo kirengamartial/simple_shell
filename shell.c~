@@ -1,0 +1,83 @@
+#include "shell.h"
+
+#define MAX_TOKENS 64
+
+char **tokenize(char *input)
+{
+    char **tokens = malloc(MAX_TOKENS * sizeof(char *));
+    if (tokens == NULL)
+    {
+        perror("malloc failed");
+        exit(EXIT_FAILURE);
+    }
+
+    char *token = strtok(input, " \t\n");  // Tokenize by space, tab, and newline
+    int i = 0;
+
+    while (token != NULL)
+    {
+        tokens[i] = strdup(token);
+        if (tokens[i] == NULL)
+        {
+            perror("strdup failed");
+            exit(EXIT_FAILURE);
+        }
+        i++;
+
+        token = strtok(NULL, " \t\n");
+    }
+
+    tokens[i] = NULL;  // Null-terminate the array
+
+    return tokens;
+}
+
+int execute(char **args)
+{
+    if (args[0] == NULL)
+    {
+        return 0;  // No command provided
+    }
+
+    if (strcmp(args[0], "exit") == 0)
+    {
+        return 1;  // Exit the shell
+    }
+
+    // Execute external commands
+    pid_t pid, wpid;
+    int status;
+
+    pid = fork();
+    if (pid == 0)
+    {
+        // Child process
+        if (execve(args[0], args, NULL) == -1)
+        {
+            perror("execve failed");
+            exit(EXIT_FAILURE);
+        }
+    }
+    else if (pid < 0)
+    {
+        perror("fork failed");
+    }
+    else
+    {
+        // Parent process
+        do
+        {
+            wpid = waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+
+    return 0;  // Continue with the shell
+}
+
+char *read_line(void)
+{
+    char *line = NULL;
+    size_t len = 0;
+    getline(&line, &len, stdin);
+    return line;
+}
