@@ -11,5 +11,7 @@
 void execute_command(char *command);
 void minishell(void);
 void myshell(void);
+void my_new_shell(void);
+void execute_command(char *command, char *path);
 
 #endif /* SHELL_H */
