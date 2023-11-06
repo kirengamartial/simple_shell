@@ -4,9 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-char *read_line(void);
-char **tokenize(char *input);
-int execute(char **args);
+void execute_command(char *command);
 
 #endif /* SHELL_H */
