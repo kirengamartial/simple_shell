@@ -10,5 +10,6 @@
 
 void execute_command(char *command);
 void minishell(void);
+void myshell(void);
 
 #endif /* SHELL_H */
