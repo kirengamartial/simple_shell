@@ -13,5 +13,8 @@ void minishell(void);
 void myshell(void);
 void my_new_shell(void);
 void execute_command(char *command, char *path);
+void my_better_shell(void);
+void execute_command(char *command, char *path);
+void split_and_execute(char *command, char *path);
 
 #endif /* SHELL_H */
