@@ -9,5 +9,6 @@
 #include <sys/wait.h>
 
 void execute_command(char *command);
+void minishell(void);
 
 #endif /* SHELL_H */
