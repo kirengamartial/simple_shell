@@ -7,6 +7,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+
+extern char **environ;
 
 void execute_command(char *command);
 void minishell(void);
@@ -16,5 +19,7 @@ void execute_command(char *command, char *path);
 void my_better_shell(void);
 void execute_command(char *command, char *path);
 void split_and_execute(char *command, char *path);
+void my_simple_shell(void);
+void execute_command(char *command, char *path);
 
 #endif /* SHELL_H */
